@@ -26,7 +26,7 @@ class UserService {
   // 로그인
   loginUser = async (username, password) => {
     try {
-      // nickname으로 user 조회
+      // username으로 user 조회
       const user = await this.userRepository.findUser(username);
 
       if (!user) {
