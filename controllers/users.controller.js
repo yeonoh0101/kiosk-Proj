@@ -4,7 +4,7 @@ class UserController {
   userService = new UserService();
 
   // 회원가입
-  createUser = async (req, res, next) => {
+  signupUser = async (req, res, next) => {
     const { username, password, is_admin } = req.body;
 
     const { status, message } = await this.userService.createUser(
@@ -13,6 +13,19 @@ class UserController {
       is_admin
     );
 
+    res.status(status).json({ message });
+  };
+
+  // 로그인
+  loginUser = async (req, res, next) => {
+    const { username, password } = req.body;
+
+    const { status, message, token } = await this.userService.loginUser(
+      username,
+      password
+    );
+
+    res.cookie("authorization", `Bearer ${token}`, { httpOnly: true });
     res.status(status).json({ message });
   };
 }
