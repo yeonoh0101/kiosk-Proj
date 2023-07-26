@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         targetKey: "orderId",
         foreignKey: "OrderId",
       });
-      this.belongsTo(models.Oprions, {
+      this.belongsTo(models.Options, {
         targetKey: "optionId",
         foreignKey: "OptionId",
       });

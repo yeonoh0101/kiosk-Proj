@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: "optionId",
         foreignKey: "OptionId",
       });
-      this.hasMany(models.OrderOprions, {
+      this.hasMany(models.OrderOptions, {
         sourceKey: "optionId",
         foreignKey: "OptionId",
       });
