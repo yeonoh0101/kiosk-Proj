@@ -13,6 +13,12 @@ class UserRepository {
 
     return createUser;
   };
+
+  // 관리자 인지 검증하기 위해 조회
+  findByAdmin = async (userId) => {
+    const adminUser = await Users.findOne({ where: { userId } });
+    return adminUser;
+  };
 }
 
 module.exports = UserRepository;

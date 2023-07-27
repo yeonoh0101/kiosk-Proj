@@ -1,7 +1,10 @@
 const ProductRepository = require("../repositories/products.repository");
+const UserRepository = require("../repositories/users.repository");
 
 class ProductService {
+  userRepository = new UserRepository();
   productRepository = new ProductRepository();
+
   // 상품 전체 조회
   ALLProducts = async () => {
     try {
@@ -41,10 +44,15 @@ class ProductService {
   };
 
   // 상품 추가
-  createProduct = async (name, price, type) => {
+  createProduct = async (userId, name, price, type) => {
     try {
+      // 관리자 인지 검증하기 위해 조회
+      const adminuUser = await this.userRepository.findByAdmin(userId);
       const types = ["coffee", "juice", "dessert"];
 
+      if (!adminuUser.is_admin) {
+        return { status: 400, message: "관리자 권한이 없습니다." };
+      }
       if (!name || !price) {
         return { status: 400, message: "상품이름과 가격을 입력해주세요." };
       }
@@ -60,13 +68,18 @@ class ProductService {
   };
 
   // 상품 수정
-  updateProduct = async (productId, name, price) => {
+  updateProduct = async (userId, productId, name, price) => {
     try {
+      // 관리자 인지 검증하기 위해 조회
+      const adminuUser = await this.userRepository.findByAdmin(userId);
       // 상품 존재 확인
       const product = await this.productRepository.getProuct(productId);
       // 상품 수정을 위한 빈 객체 선언
       const updateProduct = {};
 
+      if (!adminuUser.is_admin) {
+        return { status: 400, message: "관리자 권한이 없습니다." };
+      }
       if (!product) {
         return { status: 400, message: "상품이 존재하지 않습니다." };
       }
@@ -94,11 +107,16 @@ class ProductService {
   };
 
   // 상품 삭제 check
-  checkProduct = async (productId) => {
+  checkProduct = async (userId, productId) => {
     try {
+      // 관리자 인지 검증하기 위해 조회
+      const adminuUser = await this.userRepository.findByAdmin(userId);
       // 상품 존재 확인
       const product = await this.productRepository.getProuct(productId);
 
+      if (!adminuUser.is_admin) {
+        return { status: 400, message: "관리자 권한이 없습니다." };
+      }
       if (!product) {
         return { status: 400, message: "상품이 존재하지 않습니다." };
       }
@@ -118,11 +136,16 @@ class ProductService {
   };
 
   // 확인받고 상품 삭제
-  deleteProduct = async (productId, check) => {
+  deleteProduct = async (userId, productId, check) => {
     try {
+      // 관리자 인지 검증하기 위해 조회
+      const adminuUser = await this.userRepository.findByAdmin(userId);
       // prams로 받은 확인 메세지(check)를 소문자로 변환한다.
       check = check.toLowerCase();
 
+      if (!adminuUser.is_admin) {
+        return { status: 400, message: "관리자 권한이 없습니다." };
+      }
       if (check === "yes") {
         await this.productRepository.deleteProduct(productId);
         return { status: 200, message: "상품 삭제가 완료되었습니다." };

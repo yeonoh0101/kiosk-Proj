@@ -21,8 +21,10 @@ class ProductController {
   // 상품 추가
   createProduct = async (req, res, next) => {
     const { name, price, type } = req.body;
+    const { userId } = res.locals.user;
 
     const { status, message } = await this.productService.createProduct(
+      userId,
       name,
       price,
       type
@@ -34,8 +36,10 @@ class ProductController {
   updateProduct = async (req, res, next) => {
     const { productId } = req.params;
     const { name, price } = req.body;
+    const { userId } = res.locals.user;
 
     const { status, message } = await this.productService.updateProduct(
+      userId,
       productId,
       name,
       price
@@ -47,8 +51,10 @@ class ProductController {
   // 상품 삭제 check
   checkProduct = async (req, res, next) => {
     const { productId } = req.params;
+    const { userId } = res.locals.user;
 
     const { status, message } = await this.productService.checkProduct(
+      userId,
       productId
     );
 
@@ -58,8 +64,10 @@ class ProductController {
   // 확인받고 상품 삭제
   deleteProduct = async (req, res, next) => {
     const { productId, check } = req.params;
+    const { userId } = res.locals.user;
 
     const { status, message } = await this.productService.deleteProduct(
+      userId,
       productId,
       check
     );
