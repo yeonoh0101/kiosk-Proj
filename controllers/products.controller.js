@@ -8,6 +8,16 @@ class ProductController {
 
     res.status(status).json({ message });
   };
+
+  // 상품 타입별 조회
+  typeAllProducts = async (req, res, next) => {
+    const { type } = req.params;
+
+    const { status, message } = await this.productService.typeAllProducts(type);
+
+    res.status(status).json({ message });
+  };
+
   // 상품 추가
   createProduct = async (req, res, next) => {
     const { name, price, type } = req.body;
@@ -17,6 +27,20 @@ class ProductController {
       price,
       type
     );
+    res.status(status).json({ message });
+  };
+
+  // 상품 수정
+  updateProduct = async (req, res, next) => {
+    const { productId } = req.params;
+    const { name, price } = req.body;
+
+    const { status, message } = await this.productService.updateProduct(
+      productId,
+      name,
+      price
+    );
+
     res.status(status).json({ message });
   };
 }
