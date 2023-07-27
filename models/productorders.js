@@ -30,12 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       productState: {
         allowNull: false,
-        type: DataTypes.ENUM(
-          "on order",
-          "order completed",
-          "order cancellation",
-          "sales completed"
-        ),
+        type: DataTypes.ENUM("Ordered", "Pending", "Completed", "Canceled"),
       },
       createdAt: {
         allowNull: false,
