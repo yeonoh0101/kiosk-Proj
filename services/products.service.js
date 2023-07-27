@@ -46,7 +46,7 @@ class ProductService {
   // 상품 추가
   createProduct = async (userId, name, price, type) => {
     try {
-      // 관리자 인지 검증하기 위해 조회
+      // 관리자인지 검증하기 위해 조회
       const adminuUser = await this.userRepository.findByAdmin(userId);
       const types = ["coffee", "juice", "dessert"];
 
@@ -70,7 +70,7 @@ class ProductService {
   // 상품 수정
   updateProduct = async (userId, productId, name, price) => {
     try {
-      // 관리자 인지 검증하기 위해 조회
+      // 관리자인지 검증하기 위해 조회
       const adminuUser = await this.userRepository.findByAdmin(userId);
       // 상품 존재 확인
       const product = await this.productRepository.getProuct(productId);
@@ -109,7 +109,7 @@ class ProductService {
   // 상품 삭제 check
   checkProduct = async (userId, productId) => {
     try {
-      // 관리자 인지 검증하기 위해 조회
+      // 관리자인지 검증하기 위해 조회
       const adminuUser = await this.userRepository.findByAdmin(userId);
       // 상품 존재 확인
       const product = await this.productRepository.getProuct(productId);
@@ -138,7 +138,7 @@ class ProductService {
   // 확인받고 상품 삭제
   deleteProduct = async (userId, productId, check) => {
     try {
-      // 관리자 인지 검증하기 위해 조회
+      // 관리자인지 검증하기 위해 조회
       const adminuUser = await this.userRepository.findByAdmin(userId);
       // prams로 받은 확인 메세지(check)를 소문자로 변환한다.
       check = check.toLowerCase();
