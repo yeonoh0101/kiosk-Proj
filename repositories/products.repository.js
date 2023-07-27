@@ -39,6 +39,12 @@ class ProductRepository {
     );
     return updateProduct;
   };
+
+  // 상품 삭제
+  deleteProduct = async (productId) => {
+    const deleteProduct = await Products.destroy({ where: { productId } });
+    return deleteProduct;
+  };
 }
 
 module.exports = ProductRepository;

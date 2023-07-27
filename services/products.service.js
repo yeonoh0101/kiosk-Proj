@@ -92,6 +92,48 @@ class ProductService {
       return { status: 400, message: "상품 수정 중 오류가 발생했습니다." };
     }
   };
+
+  // 상품 삭제 check
+  checkProduct = async (productId) => {
+    try {
+      // 상품 존재 확인
+      const product = await this.productRepository.getProuct(productId);
+
+      if (!product) {
+        return { status: 400, message: "상품이 존재하지 않습니다." };
+      }
+      if (product.quantity > 0) {
+        return {
+          status: 200,
+          message: `현재 수량이 ${product.quantity}개 남아있습니다.삭제하시겠습니까?`,
+        };
+      }
+      if (!product.quantity) {
+        await this.productRepository.deleteProduct(productId);
+        return { status: 200, message: "상품 삭제가 완료되었습니다." };
+      }
+    } catch (error) {
+      return { status: 400, message: "상품 삭제 중 오류가 발생했습니다." };
+    }
+  };
+
+  // 확인받고 상품 삭제
+  deleteProduct = async (productId, check) => {
+    try {
+      // prams로 받은 확인 메세지(check)를 소문자로 변환한다.
+      check = check.toLowerCase();
+
+      if (check === "yes") {
+        await this.productRepository.deleteProduct(productId);
+        return { status: 200, message: "상품 삭제가 완료되었습니다." };
+      }
+      if (check === "no") {
+        return { status: 200, message: "상품 삭제가 취소되었습니다." };
+      }
+    } catch (error) {
+      return { status: 400, message: "상품 삭제 중 오류가 발생했습니다." };
+    }
+  };
 }
 
 module.exports = ProductService;

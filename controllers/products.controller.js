@@ -43,6 +43,29 @@ class ProductController {
 
     res.status(status).json({ message });
   };
+
+  // 상품 삭제 check
+  checkProduct = async (req, res, next) => {
+    const { productId } = req.params;
+
+    const { status, message } = await this.productService.checkProduct(
+      productId
+    );
+
+    res.status(status).json({ message });
+  };
+
+  // 확인받고 상품 삭제
+  deleteProduct = async (req, res, next) => {
+    const { productId, check } = req.params;
+
+    const { status, message } = await this.productService.deleteProduct(
+      productId,
+      check
+    );
+
+    res.status(status).json({ message });
+  };
 }
 
 module.exports = ProductController;
