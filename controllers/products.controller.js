@@ -20,13 +20,13 @@ class ProductController {
 
   // 상품 추가
   createProduct = async (req, res, next) => {
-    const { name, price, type } = req.body;
+    const { ProductName, ProductPrice, type } = req.body;
     const { userId } = res.locals.user;
 
     const { status, message } = await this.productService.createProduct(
       userId,
-      name,
-      price,
+      ProductName,
+      ProductPrice,
       type
     );
     res.status(status).json({ message });

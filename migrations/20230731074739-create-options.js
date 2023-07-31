@@ -2,8 +2,8 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("ProductOrders", {
-      productOrderId: {
+    await queryInterface.createTable("Options", {
+      optionId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -12,15 +12,25 @@ module.exports = {
       ProductId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        references: {
+          model: "Products",
+          key: "productId",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
-      productState: {
+      extraPrice: {
         allowNull: false,
-        type: Sequelize.ENUM(
-          "on order",
-          "order completed",
-          "order cancellation",
-          "sales completed"
-        ),
+        type: Sequelize.INTEGER,
+      },
+      shotPrice: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+      },
+      hot: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,
@@ -35,6 +45,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("ProductOrders");
+    await queryInterface.dropTable("Options");
   },
 };

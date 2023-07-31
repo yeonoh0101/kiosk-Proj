@@ -24,13 +24,24 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      ProductId: {
+      quantity: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
-      productState: {
+      ProductId: {
         allowNull: false,
-        type: DataTypes.ENUM("Ordered", "Pending", "Completed", "Canceled"),
+        type: DataTypes.INTEGER,
+        references: {
+          model: "Products",
+          key: "productId",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      },
+      ProductOrderState: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,

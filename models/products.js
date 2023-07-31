@@ -10,14 +10,17 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
 
+      // Options 모델과 1:N
       this.hasMany(models.Options, {
         sourceKey: "productId",
         foreignKey: "ProductId",
       });
+      // OrderItems 모델과 1:N
       this.hasMany(models.OrderItems, {
         sourceKey: "productId",
         foreignKey: "ProductId",
       });
+      // ProductOrders 모델과 1:N
       this.hasMany(models.ProductOrders, {
         sourceKey: "productId",
         foreignKey: "ProductId",
@@ -32,13 +35,15 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      name: {
+      ProductName: {
         allowNull: false,
+        unique: true,
         type: DataTypes.STRING,
       },
-      price: {
+      ProductPrice: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        defaultValue: 0,
       },
       quantity: {
         allowNull: false,

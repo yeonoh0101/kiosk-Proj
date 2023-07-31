@@ -5,10 +5,10 @@ class UserController {
 
   // 회원가입
   signupUser = async (req, res, next) => {
-    const { username, password, is_admin } = req.body;
+    const { userName, password, is_admin } = req.body;
 
     const { status, message } = await this.userService.createUser(
-      username,
+      userName,
       password,
       is_admin
     );
@@ -18,10 +18,10 @@ class UserController {
 
   // 로그인
   loginUser = async (req, res, next) => {
-    const { username, password } = req.body;
+    const { userName, password } = req.body;
 
     const { status, message, token } = await this.userService.loginUser(
-      username,
+      userName,
       password
     );
 

@@ -9,19 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-
       this.belongsTo(models.Products, {
         targetKey: "productId",
         foreignKey: "ProductId",
-      });
-
-      this.hasMany(models.OrderItems, {
-        sourceKey: "optionId",
-        foreignKey: "OptionId",
-      });
-      this.hasMany(models.OrderOptions, {
-        sourceKey: "optionId",
-        foreignKey: "OptionId",
       });
     }
   }
@@ -36,18 +26,25 @@ module.exports = (sequelize, DataTypes) => {
       ProductId: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        references: {
+          model: "Products",
+          key: "productId",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
-      extra_price: {
+      extraPrice: {
+        allowNull: false,
         type: DataTypes.INTEGER,
-        defaultValue: 0,
+      },
+      shotPrice: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
       },
       hot: {
+        allowNull: false,
         type: DataTypes.BOOLEAN,
         defaultValue: false,
-      },
-      shot_price: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,

@@ -14,13 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         targetKey: "productId",
         foreignKey: "ProductId",
       });
+
       this.belongsTo(models.Orders, {
         targetKey: "orderId",
         foreignKey: "OrderId",
-      });
-      this.belongsTo(models.Options, {
-        targetKey: "optionId",
-        foreignKey: "OptionId",
       });
     }
   }
@@ -35,18 +32,34 @@ module.exports = (sequelize, DataTypes) => {
       OrderId: {
         allowNull: false,
         type: DataTypes.INTEGER,
-      },
-      OptionId: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
+        references: {
+          model: "Orders",
+          key: "orderId",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
       ProductId: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        references: {
+          model: "Products",
+          key: "productId",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
       quantity: {
         allowNull: false,
         type: DataTypes.INTEGER,
+      },
+      price: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      options: {
+        allowNull: false,
+        type: DataTypes.JSON,
       },
       createdAt: {
         allowNull: false,

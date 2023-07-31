@@ -14,11 +14,8 @@ module.exports = (sequelize, DataTypes) => {
         targetKey: "userId",
         foreignKey: "UserId",
       });
+
       this.hasMany(models.OrderItems, {
-        sourceKey: "orderId",
-        foreignKey: "OrderId",
-      });
-      this.hasMany(models.OrderOptions, {
         sourceKey: "orderId",
         foreignKey: "OrderId",
       });
@@ -35,6 +32,12 @@ module.exports = (sequelize, DataTypes) => {
       UserId: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        references: {
+          model: "Users",
+          key: "userId",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
       orderState: {
         type: DataTypes.BOOLEAN,

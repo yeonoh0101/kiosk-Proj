@@ -35,7 +35,6 @@ class ProductService {
 
       return { status: 200, message: typeProduts };
     } catch (error) {
-      console.log(error);
       return {
         status: 400,
         message: "상품 타입별 조회 중 오류가 발생했습니다.",
@@ -44,31 +43,44 @@ class ProductService {
   };
 
   // 상품 추가
-  createProduct = async (userId, name, price, type) => {
+  createProduct = async (userId, ProductName, ProductPrice, type) => {
     try {
       // 관리자인지 검증하기 위해 조회
       const adminuUser = await this.userRepository.findByAdmin(userId);
+      // 상품 중복 예외처리를 위해 ProductName으로 조회
+      const existProductName = await this.productRepository.findProductName(
+        ProductName
+      );
       const types = ["coffee", "juice", "dessert"];
 
       if (!adminuUser.is_admin) {
-        return { status: 400, message: "관리자 권한이 없습니다." };
+        return { status: 401, message: "관리자 권한이 없습니다." };
       }
-      if (!name || !price) {
+      if (!ProductName || !ProductPrice) {
         return { status: 400, message: "상품이름과 가격을 입력해주세요." };
       }
       if (!type || !types.includes(type.toLowerCase())) {
         return { status: 400, message: "알맞은 타입으로 지정해주세요." };
       }
-      await this.productRepository.createProduct(name, price, type);
+      if (existProductName) {
+        return { status: 400, message: "동일한 상품이 존재합니다." };
+      }
+
+      await this.productRepository.createProduct(
+        ProductName,
+        ProductPrice,
+        type
+      );
 
       return { status: 200, message: "상품 추가가 완료되었습니다." };
     } catch (error) {
+      console.log(error);
       return { status: 400, message: "상품 추가 중 오류가 발생헀습니다." };
     }
   };
 
   // 상품 수정
-  updateProduct = async (userId, productId, name, price) => {
+  updateProduct = async (userId, productId, name, ProductPrice) => {
     try {
       // 관리자인지 검증하기 위해 조회
       const adminuUser = await this.userRepository.findByAdmin(userId);
