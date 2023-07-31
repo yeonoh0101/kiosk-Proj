@@ -35,14 +35,14 @@ class ProductController {
   // 상품 수정
   updateProduct = async (req, res, next) => {
     const { productId } = req.params;
-    const { name, price } = req.body;
+    const { ProductName, ProductPrice } = req.body;
     const { userId } = res.locals.user;
 
     const { status, message } = await this.productService.updateProduct(
       userId,
       productId,
-      name,
-      price
+      ProductName,
+      ProductPrice
     );
 
     res.status(status).json({ message });

@@ -80,12 +80,16 @@ class ProductService {
   };
 
   // 상품 수정
-  updateProduct = async (userId, productId, name, ProductPrice) => {
+  updateProduct = async (userId, productId, ProductName, ProductPrice) => {
     try {
       // 관리자인지 검증하기 위해 조회
       const adminuUser = await this.userRepository.findByAdmin(userId);
       // 상품 존재 확인
       const product = await this.productRepository.getProuct(productId);
+      // 상품 중복 예외처리를 위해 ProductName으로 조회
+      const existProductName = await this.productRepository.findProductName(
+        ProductName
+      );
       // 상품 수정을 위한 빈 객체 선언
       const updateProduct = {};
 
@@ -95,21 +99,28 @@ class ProductService {
       if (!product) {
         return { status: 400, message: "상품이 존재하지 않습니다." };
       }
-      if (!name) {
+      if (!ProductName) {
         return { status: 400, message: "상품 이름을 입력해주세요." };
       }
-      if (!price || price <= 0) {
+      if (!ProductPrice || ProductPrice <= 0) {
         return { status: 400, message: "알맞은 가격을 입력해주세요." };
       }
-
-      if (name) {
-        updateProduct.name = name;
-      }
-      if (price) {
-        updateProduct.price = price;
+      if (existProductName) {
+        return { status: 400, message: "동일한 상품이 존재합니다." };
       }
 
-      await this.productRepository.updateProduct(productId, name, price);
+      if (ProductName) {
+        updateProduct.ProductName = ProductName;
+      }
+      if (ProductPrice) {
+        updateProduct.ProductPrice = ProductPrice;
+      }
+
+      await this.productRepository.updateProduct(
+        productId,
+        ProductName,
+        ProductPrice
+      );
 
       return { status: 200, message: "상품 수정이 완료되었습니다." };
     } catch (error) {

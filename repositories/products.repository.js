@@ -14,7 +14,7 @@ class ProductRepository {
   // 상품 타입별 조회
   typeAllProducts = async (type) => {
     const typeProducts = await Products.findAll({
-      where: { type },
+      where: { type: { [Op.like]: type } },
       order: [["ProductPrice", "ASC"]], // 가격이 낮은 순부터 나열해준다.
     });
 
