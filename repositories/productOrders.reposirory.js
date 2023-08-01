@@ -1,5 +1,5 @@
 const { Products, ProductOrders } = require("../models");
-const sequelize = require("sequelize");
+// const sequelize = require("sequelize");
 
 class ProductOrderRepository {
   // 상품 발주
@@ -8,11 +8,6 @@ class ProductOrderRepository {
       ProductId: productId,
       quantity,
     });
-    // 상품에 수량을 추가해준다.
-    await Products.update(
-      { quantity: sequelize.literal(`quantity + ${quantity}`) },
-      { where: { productId } }
-    );
 
     return productOrder;
   };
