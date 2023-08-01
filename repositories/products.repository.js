@@ -38,9 +38,9 @@ class ProductRepository {
   };
 
   // 상품 존재 확인
-  getProuct = async (productId) => {
-    const getProuct = await Products.findOne({ where: { productId } });
-    return getProuct;
+  getProduct = async (productId) => {
+    const getProduct = await Products.findOne({ where: { productId } });
+    return getProduct;
   };
 
   // 상품 수정

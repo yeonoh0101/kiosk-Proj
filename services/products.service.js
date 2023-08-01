@@ -85,7 +85,7 @@ class ProductService {
       // 관리자인지 검증하기 위해 조회
       const adminuUser = await this.userRepository.findByAdmin(userId);
       // 상품 존재 확인
-      const product = await this.productRepository.getProuct(productId);
+      const product = await this.productRepository.getProduct(productId);
       // 상품 중복 예외처리를 위해 ProductName으로 조회
       const existProductName = await this.productRepository.findProductName(
         ProductName
@@ -135,7 +135,7 @@ class ProductService {
       // 관리자인지 검증하기 위해 조회
       const adminuUser = await this.userRepository.findByAdmin(userId);
       // 상품 존재 확인
-      const product = await this.productRepository.getProuct(productId);
+      const product = await this.productRepository.getProduct(productId);
 
       if (!adminuUser.is_admin) {
         return { status: 400, message: "관리자 권한이 없습니다." };
