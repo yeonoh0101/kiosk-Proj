@@ -5,10 +5,11 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const UserRouter = require("./routes/users.routes");
 const ProductRouter = require("./routes/products.routes");
+const ProductOrderRouter = require("./routes/productOrders.routes");
 
 app.use(express.json());
 app.use(cookieParser());
-app.use("/", [UserRouter, ProductRouter]);
+app.use("/", [UserRouter, ProductRouter, ProductOrderRouter]);
 
 app.listen(PORT, () => {
   console.log(`${PORT}번 포트로 서버가 열렸습니다.`);
