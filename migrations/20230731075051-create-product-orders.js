@@ -25,8 +25,8 @@ module.exports = {
       },
       ProductOrderState: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
+        type: Sequelize.ENUM("ordered", "pending", "completed", "canceled"),
+        defaultValue: "ordered",
       },
       createdAt: {
         allowNull: false,

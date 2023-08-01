@@ -40,8 +40,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       ProductOrderState: {
         allowNull: false,
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
+        type: DataTypes.ENUM("ordered", "pending", "completed", "canceled"),
+        defaultValue: "ordered",
       },
       createdAt: {
         allowNull: false,
