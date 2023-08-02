@@ -4,14 +4,27 @@ class ProductOrderController {
   productOrderService = new ProductOrderService();
 
   // 상품 발주
-  ProductOrder = async (req, res, next) => {
+  productOrder = async (req, res, next) => {
     const { productId } = req.params;
     const { quantity } = req.body;
 
-    const { status, message } = await this.productOrderService.ProductOrder(
+    const { status, message } = await this.productOrderService.productOrder(
       productId,
       quantity
     );
+
+    res.status(status).json({ message });
+  };
+
+  // 발주 상태 수정
+  productOrderUpdate = async (req, res, next) => {
+    const { productId, ProductOrderState } = req.params;
+
+    const { status, message } =
+      await this.productOrderService.productOrderUpdate(
+        productId,
+        ProductOrderState
+      );
 
     res.status(status).json({ message });
   };
