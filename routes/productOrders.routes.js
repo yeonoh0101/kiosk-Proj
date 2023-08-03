@@ -9,7 +9,7 @@ router.post("/order/product/:productId", productOrderController.productOrder);
 
 // 발주 상태 수정
 router.put(
-  "/order/product/:productId/:ProductOrderState",
+  "/order/product/:productId/:productOrderId/:ProductOrderState",
   productOrderController.productOrderUpdate
 );
 

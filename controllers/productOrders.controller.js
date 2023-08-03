@@ -18,11 +18,12 @@ class ProductOrderController {
 
   // 발주 상태 수정
   productOrderUpdate = async (req, res, next) => {
-    const { productId, ProductOrderState } = req.params;
+    const { productId, productOrderId, ProductOrderState } = req.params;
 
     const { status, message } =
       await this.productOrderService.productOrderUpdate(
         productId,
+        productOrderId,
         ProductOrderState
       );
 
