@@ -14,20 +14,13 @@ class ProductOrderRepository {
 
   // 발주 상태 수정
   productOrderUpdate = async (productId, productOrderId, ProductOrderState) => {
-    try {
-      const transaction = await sequelize.transaction();
+    const productOrderState = await ProductOrders.update(
+      { ProductOrderState },
+      { where: { productId, productOrderId } },
+      { transaction }
+    );
 
-      const productOrderState = await ProductOrders.update(
-        { ProductOrderState },
-        { where: { productId, productOrderId } },
-        { transaction }
-      );
-
-      await transaction.commit();
-      return productOrderState;
-    } catch (error) {
-      await transaction.rollback();
-    }
+    return productOrderState;
   };
 
   // 발주 상태가 completed가 되었을때 상품 개수를 추가해주기 위해 발주상태 조회
