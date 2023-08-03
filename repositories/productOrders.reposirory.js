@@ -14,8 +14,9 @@ class ProductOrderRepository {
 
   // 발주 상태 수정
   productOrderUpdate = async (productId, productOrderId, ProductOrderState) => {
-    const transaction = await sequelize.transaction();
     try {
+      const transaction = await sequelize.transaction();
+
       const productOrderState = await ProductOrders.update(
         { ProductOrderState },
         { where: { productId, productOrderId } },
@@ -39,12 +40,35 @@ class ProductOrderRepository {
 
   // 상품 개수 추가
   productQuantityUpdate = async (productId, existProductQuantity) => {
-    const transaction = await sequelize.transaction();
     try {
+      const transaction = await sequelize.transaction();
+
       await Products.update(
         {
           quantity: Sequelize.literal(
             `quantity + ${existProductQuantity.quantity}`
+          ),
+        },
+        { where: { productId } },
+        { transaction }
+      );
+
+      await transaction.commit();
+    } catch (error) {
+      await transaction.rollback();
+    }
+  };
+
+  // 상품 개수 삭제
+  productQuantityDel = async (productId, existProductQuantity) => {
+    try {
+      const transaction = await sequelize.transaction();
+
+      console.log(existProductQuantity.quantity);
+      await Products.update(
+        {
+          quantity: Sequelize.literal(
+            `quantity - ${existProductQuantity.quantity}`
           ),
         },
         { where: { productId } },

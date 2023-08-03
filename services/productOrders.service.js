@@ -57,6 +57,18 @@ class ProductOrderService {
             "현재 남은 수량이 발주 수량보다 적어 발주 취소가 불가능합니다.",
         };
       }
+      if (ProductOrderState.toLowerCase() === "canceled") {
+        await this.productOrderRepository.productOrderUpdate(
+          productId,
+          productOrderId,
+          ProductOrderState
+        );
+        await this.productOrderRepository.productQuantityDel(
+          productId,
+          existProductQuantity
+        );
+        return { status: 200, message: "발주가 취소되었습니다." };
+      }
       if (ProductOrderState.toLowerCase() === "completed") {
         await this.productOrderRepository.productOrderUpdate(
           productId,
@@ -67,7 +79,7 @@ class ProductOrderService {
           productId,
           existProductQuantity
         );
-        return { status: 200, message: "발주 상태 수정이 완료되었습니다." };
+        return { status: 200, message: "발주가 완료되었습니다." };
       }
 
       await this.productOrderRepository.productOrderUpdate(
