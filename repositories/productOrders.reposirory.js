@@ -16,8 +16,7 @@ class ProductOrderRepository {
   productOrderUpdate = async (productId, productOrderId, ProductOrderState) => {
     const productOrderState = await ProductOrders.update(
       { ProductOrderState },
-      { where: { productId, productOrderId } },
-      { transaction }
+      { where: { productId, productOrderId } }
     );
 
     return productOrderState;
@@ -57,7 +56,6 @@ class ProductOrderRepository {
     try {
       const transaction = await sequelize.transaction();
 
-      console.log(existProductQuantity.quantity);
       await Products.update(
         {
           quantity: Sequelize.literal(
